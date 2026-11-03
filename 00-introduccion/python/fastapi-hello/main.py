@@ -19,8 +19,8 @@ Documentación interactiva (una vez ejecutando):
     - ReDoc:     http://localhost:8000/redoc
 """
 
-from fastapi import FastAPI
-
+from fastapi import FastAPI, status
+from pydantic import BaseModel, Field
 # ---------------------------------------------------------------------------
 # Instancia de la aplicación
 # ---------------------------------------------------------------------------
@@ -44,7 +44,7 @@ app = FastAPI(
 #   - El tipo de retorno (dict → JSON)
 #   - El schema OpenAPI a partir del type hint de retorno
 @app.get("/")
-def read_root():
+def read_root(name: str):
     """
     Endpoint raíz.
     Retorna un mensaje de bienvenida.
@@ -54,7 +54,7 @@ def read_root():
     - Inferencia automática de tipo de respuesta (dict → JSON)
     - Documentación automática generada desde el docstring y los tipos
     """
-    return {"message": "¡Hola, mundo desde FastAPI!"}
+    return {"message": f"¡Hola, {name} te saludamos desde FastAPI!"}
 
 
 # ---------------------------------------------------------------------------
@@ -73,3 +73,29 @@ def health_check():
     de los endpoints de negocio.
     """
     return {"status": "ok", "service": "fastapi-hello"}
+
+@app.get("/version")
+def obtenerVersion():
+    """
+    Obtiene version del servicio 
+    """
+    return {"status": "ok", "service": "fastapi-hello", "message": "la version es " + app.version}
+
+
+class Usuario(BaseModel):
+    nombre_usuario: str
+    email: str
+    password: str = Field(min_length=8)
+    edad: int = Field(gt=18, le=120)
+    rol: str
+
+@app.post("/usuarios", status_code=status.HTTP_201_CREATED)
+async def crear_usuario(usuario: Usuario):
+    user_json = usuario.model_dump()
+
+    return {
+        "mensaje": "Usuario creado exitosamente",
+        "data": user_json
+    }
+
+
