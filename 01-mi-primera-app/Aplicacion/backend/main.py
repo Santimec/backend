@@ -17,7 +17,7 @@ Endpoints:
 
 from datetime import datetime, timezone
 from typing import Optional
-
+from typing import Literal
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -43,6 +43,7 @@ class Task(BaseModel):
     title: str
     completed: bool
     created_at: str
+    prioridad: Literal["baja", "media", "alta"] | None = None
 
 
 # ============================================================
