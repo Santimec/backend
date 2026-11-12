@@ -189,6 +189,9 @@ En Supabase:
 postgresql://postgres.TU_PROJECT_REF:TU_PASSWORD@aws-0-TU_REGION.pooler.supabase.com:6543/postgres
 ```
 
+postgresql://postgres:Desarrollo123%3AD@db.ysrpdzgvqabfydektiwm.supabase.co:5432/postgres
+
+
 > ⚠️ **Atención**: tu URL real ya viene con tu project ref, tu región y tu
 > contraseña adentro. La de arriba es solo la *forma*. No compartas tu URL:
 > es la puerta de entrada a tu base de datos.
